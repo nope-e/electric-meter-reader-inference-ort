@@ -1,0 +1,538 @@
+{
+  "schema_version": 1,
+  "bundle_version": "2026-10-20-current-v3",
+  "models": {
+    "classifier": {
+      "file": "meter_type.onnx",
+      "task": "Full image digital/wheel classification",
+      "bytes": 6094315,
+      "sha256": "a3e1469e667db1d1fc2d1bd3b1192d952a5a9db896dc88d145d6e5406c6623ea",
+      "source_file": "test-prj/models/meter_type_cnn/meter_type.onnx",
+      "ir_version": 7,
+      "opsets": {
+        "ai.onnx": 12
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float32",
+          "shape": [
+            1,
+            3,
+            256,
+            256
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits",
+          "dtype": "float32",
+          "shape": [
+            1,
+            2
+          ]
+        }
+      ],
+      "onnx_metadata": {
+        "class_names": "[\"lcd\", \"wheel\"]",
+        "preprocess_kind": "rgb_imagenet_pad256",
+        "preprocessing": "{\"size\": [256, 256], \"resize\": \"PIL bilinear aspect-preserving pad\", \"pad_rgb\": [128, 128, 128], \"mean\": [0.485, 0.456, 0.406], \"std\": [0.229, 0.224, 0.225], \"layout\": \"NCHW\", \"dtype\": \"float32\", \"pixel_divisor\": 255}"
+      },
+      "preprocessing_spec": "PIPELINE.md",
+      "class_names": [
+        "lcd",
+        "wheel"
+      ],
+      "preprocessing": {
+        "size_hw": [
+          256,
+          256
+        ],
+        "channels": "RGB",
+        "resize": "PIL ImageOps.pad BILINEAR",
+        "pad_rgb": [
+          128,
+          128,
+          128
+        ],
+        "pixel_divisor": 255,
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "layout": "NCHW"
+      }
+    },
+    "area": {
+      "file": "meter_area.onnx",
+      "task": "Whole reading area",
+      "bytes": 10564968,
+      "sha256": "1460c5fdbfdd140c3ffffe997b5c57ab81d62043481e713fa49a88b15b6af90b",
+      "source_file": "test-prj/models/meter_area/area.onnx",
+      "ir_version": 7,
+      "opsets": {
+        "ai.onnx": 12
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float32",
+          "shape": [
+            1,
+            3,
+            640,
+            640
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float32",
+          "shape": [
+            1,
+            5,
+            8400
+          ]
+        }
+      ],
+      "onnx_metadata": {
+        "description": "Ultralytics YOLO11n model trained on D:\\code\\projects\\electric-meter-reader\\test-prj\\datasets\\meter_area\\data.yaml",
+        "author": "Ultralytics",
+        "date": "2026-10-19T22:57:25.664371+08:00",
+        "version": "8.4.182",
+        "license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "docs": "https://docs.ultralytics.com",
+        "stride": "32",
+        "task": "detect",
+        "head": "Detect",
+        "batch": "1",
+        "imgsz": "[640, 640]",
+        "names": "{0: 'area'}",
+        "args": "{'data': None, 'batch': 1, 'fraction': 1.0, 'quantize': None, 'nms': False, 'dynamic': False, 'simplify': False, 'opset': 12}",
+        "channels": "3",
+        "end2end": "False"
+      },
+      "preprocessing_spec": "PIPELINE.md",
+      "preprocessing": {
+        "size_hw": [
+          640,
+          640
+        ],
+        "channels": "RGB",
+        "resize": "OpenCV INTER_LINEAR aspect-preserving letterbox; Python round",
+        "pad_rgb": [
+          114,
+          114,
+          114
+        ],
+        "normalization": "float32 / 255",
+        "layout": "NCHW"
+      },
+      "output_layout": "[1,4+C,8400]; cx,cy,w,h,class_scores; no objectness; no embedded NMS",
+      "class_names": [
+        "area"
+      ]
+    },
+    "lcd_reader": {
+      "file": "lcd_digits.onnx",
+      "task": "LCD digit detection",
+      "bytes": 10573343,
+      "sha256": "bfedd7ed24e43d741ef20717df5effde134aec9759a154b6ca334d5b1b4770e7",
+      "source_file": "test-prj/models/digits.onnx",
+      "ir_version": 7,
+      "opsets": {
+        "ai.onnx": 12
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float32",
+          "shape": [
+            1,
+            3,
+            640,
+            640
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float32",
+          "shape": [
+            1,
+            16,
+            8400
+          ]
+        }
+      ],
+      "onnx_metadata": {
+        "description": "Ultralytics YOLO11n model trained on data.yaml",
+        "author": "Ultralytics",
+        "date": "2026-10-19T19:27:36.488183+08:00",
+        "version": "8.4.182",
+        "license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "docs": "https://docs.ultralytics.com",
+        "stride": "32",
+        "task": "detect",
+        "head": "Detect",
+        "batch": "1",
+        "imgsz": "[640, 640]",
+        "names": "{0: '0', 1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 10: 'dot', 11: 'minus'}",
+        "args": "{'data': None, 'batch': 1, 'fraction': 1.0, 'quantize': None, 'nms': False, 'dynamic': False, 'simplify': False, 'opset': 12}",
+        "channels": "3",
+        "end2end": "False"
+      },
+      "preprocessing_spec": "PIPELINE.md",
+      "preprocessing": {
+        "size_hw": [
+          640,
+          640
+        ],
+        "channels": "RGB",
+        "resize": "OpenCV INTER_LINEAR aspect-preserving letterbox; Python round",
+        "pad_rgb": [
+          114,
+          114,
+          114
+        ],
+        "normalization": "float32 / 255",
+        "layout": "NCHW"
+      },
+      "output_layout": "[1,4+C,8400]; cx,cy,w,h,class_scores; no objectness; no embedded NMS",
+      "class_names": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "dot",
+        "minus"
+      ]
+    },
+    "wheel_slots": {
+      "file": "wheel_slots.onnx",
+      "task": "Complete wheel-window detection, v3 local",
+      "bytes": 10564981,
+      "sha256": "101fbd4de98290650fd0a5f8d90abf9b57b7982a8fc20e2a49de04367e2b17ac",
+      "source_file": "test-prj/models/wheel_slots/wheel_slots.onnx",
+      "ir_version": 7,
+      "opsets": {
+        "ai.onnx": 12
+      },
+      "inputs": [
+        {
+          "name": "images",
+          "dtype": "float32",
+          "shape": [
+            1,
+            3,
+            640,
+            640
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output0",
+          "dtype": "float32",
+          "shape": [
+            1,
+            5,
+            8400
+          ]
+        }
+      ],
+      "onnx_metadata": {
+        "description": "Ultralytics YOLO11n model trained on D:\\code\\projects\\electric-meter-reader\\test-prj\\datasets\\wheel_slots_local\\data.yaml",
+        "author": "Ultralytics",
+        "date": "2026-10-20T19:05:07.667495+08:00",
+        "version": "8.4.182",
+        "license": "AGPL-3.0 License (https://ultralytics.com/license)",
+        "docs": "https://docs.ultralytics.com",
+        "stride": "32",
+        "task": "detect",
+        "head": "Detect",
+        "batch": "1",
+        "imgsz": "[640, 640]",
+        "names": "{0: 'wheel_slot'}",
+        "args": "{'data': None, 'batch': 1, 'fraction': 1.0, 'quantize': None, 'nms': False, 'dynamic': False, 'simplify': False, 'opset': 12}",
+        "channels": "3",
+        "end2end": "False"
+      },
+      "preprocessing_spec": "PIPELINE.md",
+      "preprocessing": {
+        "size_hw": [
+          640,
+          640
+        ],
+        "channels": "RGB",
+        "resize": "OpenCV INTER_LINEAR aspect-preserving letterbox; Python round",
+        "pad_rgb": [
+          114,
+          114,
+          114
+        ],
+        "normalization": "float32 / 255",
+        "layout": "NCHW"
+      },
+      "output_layout": "[1,4+C,8400]; cx,cy,w,h,class_scores; no objectness; no embedded NMS",
+      "class_names": [
+        "wheel_slot"
+      ]
+    },
+    "wheel_reader": {
+      "file": "wheel_reader.onnx",
+      "task": "Single-wheel 100-bin classification",
+      "bytes": 2264691,
+      "sha256": "37912f885b061a7b12298872fbdfa1b73ca0664363b293a55617b1d3680a98ac",
+      "source_file": "test-prj/models/visionstate/wheels-v1.onnx",
+      "ir_version": 8,
+      "opsets": {
+        "ai.onnx": 17
+      },
+      "inputs": [
+        {
+          "name": "cells",
+          "dtype": "float32",
+          "shape": [
+            "n",
+            1,
+            48,
+            32
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "name": "logits",
+          "dtype": "float32",
+          "shape": [
+            "n",
+            100
+          ]
+        }
+      ],
+      "onnx_metadata": {},
+      "preprocessing_spec": "PIPELINE.md",
+      "preprocessing": {
+        "size_hw": [
+          48,
+          32
+        ],
+        "channels": "min(R,G,B)",
+        "resize": "PIL BILINEAR stretch",
+        "autocontrast_cutoff_percent_per_tail": 1,
+        "order": [
+          "min_RGB",
+          "resize",
+          "autocontrast",
+          "float32_divide_255"
+        ],
+        "layout": "NCHW"
+      },
+      "output_layout": "[N,100] logits, bin b => state b/10"
+    }
+  },
+  "pipeline": {
+    "image_orientation": "EXIF transpose before any model or coordinate calculations",
+    "source_pixels": "RGB uint8 HWC; original orientation-corrected image, no source recompression",
+    "routing": {
+      "classifier_classes": [
+        "lcd",
+        "wheel"
+      ],
+      "public_types": [
+        "digital",
+        "wheel"
+      ],
+      "lcd_maps_to": "digital"
+    },
+    "confidence_threshold": 0.25,
+    "nms_iou_threshold": 0.45,
+    "area_selection": "highest score, then largest area on an exact tie",
+    "wheel_area_context": {
+      "horizontal_fraction_per_side": 0.1,
+      "vertical_fraction_per_side": 0.11666666666666668
+    },
+    "wheel_crop_margin": {
+      "width_fraction_per_side": 0.08,
+      "height_fraction_per_side": 0.1,
+      "source": "original full photograph"
+    },
+    "wheel_count": "all post-NMS boxes, order by center x then center y; do not enforce 5 or 6 or fill missing positions",
+    "lcd_decimal_places": 2,
+    "wheel_decimal_places": 1,
+    "wheel_decode": {
+      "slack_bins": 1,
+      "max_shift_bins": 2,
+      "shift_penalty": 0.3,
+      "last_wheel_policy": "floor",
+      "author_rounded_candidate_saved_separately": true
+    }
+  },
+  "known_issues": [
+    "Joint common shift can turn independent last-wheel 3.0 into 2.9; floor then produces 2. This known issue is preserved, not fixed by packaging.",
+    "Area misses, missing wheel boxes, and false background boxes still occur.",
+    "Classifier is closed-set; scores are not calibrated correctness probabilities."
+  ],
+  "reference_sources": {
+    "test-prj/main.py": "fe89be2e2034207471b953ba79b6fb0b252b7257db5be74fbd9d0a165786510e",
+    "test-prj/classify_meter.py": "faf5387729a713939fc4dd1e763916f34f70270b2b22d6f3c02d2dbec3d70657",
+    "test-prj/detect_wheel_slots.py": "f33cd49420ee07f1f1c8134fa98df18b0c405de17a0a09185d923b06aaf29077",
+    "test-prj/visionstate_wheel.py": "f98a0ed3ad37a9dfba019b521da481f3954ec01a9a122c9853b16e3d0b247a29",
+    "test-prj/detect_meter_area.py": "c236bb1199fc20e8ff55006a0cf3b7e3f08575725fcfa3876036de2faf9fd6ac",
+    "test-prj/recognize.py": "c0e4757367feb2396645ffd531ead860308fed2aeeefd2841d5d74475c7625b8",
+    "test-prj/recognize_wheel_slots.py": "68e091b40e144e7426bf74af590f00ec042eb1a9f8e9bf68f65318de13ce855b",
+    "test-prj/vendor/visionstate/common.py": "5595db9352c4e4bf4fdfb2028a0b8d861781c3c415fc988e3c7a2fa2d1da92ea"
+  },
+  "validated_runtime": {
+    "python": "3.12.9",
+    "numpy": "2.5.4",
+    "onnxruntime": "1.31.0",
+    "opencv": "4.14.0",
+    "pillow": "13.0.0",
+    "providers": [
+      "CPUExecutionProvider"
+    ],
+    "target_status": "Desktop CPU verified; WeChat mini-program not yet verified"
+  },
+  "local_evaluation": {
+    "overall": {
+      "images": 104,
+      "type_correct": 104,
+      "with_area": 99,
+      "with_reading": 99,
+      "scorable": 98,
+      "correct": 79,
+      "incorrect": 19,
+      "unscored": 6,
+      "end_to_end_exact_match_rate": 0.8061224489795918,
+      "verified_correct_fraction_of_all_images": 0.7596153846153846,
+      "failure_causes": {
+        "lcd_digit_count_mismatch": 1,
+        "no_area": 5,
+        "wheel_slot_count_mismatch": 5,
+        "digit_value_mismatch": 8
+      }
+    },
+    "by_type": {
+      "digital": {
+        "images": 33,
+        "type_correct": 33,
+        "with_area": 33,
+        "with_reading": 33,
+        "scorable": 28,
+        "correct": 27,
+        "incorrect": 1,
+        "unscored": 5,
+        "end_to_end_exact_match_rate": 0.9642857142857143,
+        "verified_correct_fraction_of_all_images": 0.8181818181818182,
+        "failure_causes": {
+          "lcd_digit_count_mismatch": 1
+        }
+      },
+      "wheel": {
+        "images": 71,
+        "type_correct": 71,
+        "with_area": 66,
+        "with_reading": 66,
+        "scorable": 70,
+        "correct": 52,
+        "incorrect": 18,
+        "unscored": 1,
+        "end_to_end_exact_match_rate": 0.7428571428571429,
+        "verified_correct_fraction_of_all_images": 0.7323943661971831,
+        "failure_causes": {
+          "no_area": 5,
+          "wheel_slot_count_mismatch": 5,
+          "digit_value_mismatch": 8
+        }
+      }
+    },
+    "by_folder": {
+      "lcd": {
+        "images": 33,
+        "type_correct": 33,
+        "with_area": 33,
+        "with_reading": 33,
+        "scorable": 28,
+        "correct": 27,
+        "incorrect": 1,
+        "unscored": 5,
+        "end_to_end_exact_match_rate": 0.9642857142857143,
+        "verified_correct_fraction_of_all_images": 0.8181818181818182,
+        "failure_causes": {
+          "lcd_digit_count_mismatch": 1
+        }
+      },
+      "wheel": {
+        "images": 53,
+        "type_correct": 53,
+        "with_area": 52,
+        "with_reading": 52,
+        "scorable": 52,
+        "correct": 39,
+        "incorrect": 13,
+        "unscored": 1,
+        "end_to_end_exact_match_rate": 0.75,
+        "verified_correct_fraction_of_all_images": 0.7358490566037735,
+        "failure_causes": {
+          "no_area": 1,
+          "wheel_slot_count_mismatch": 4,
+          "digit_value_mismatch": 8
+        }
+      },
+      "test_wheel": {
+        "images": 18,
+        "type_correct": 18,
+        "with_area": 14,
+        "with_reading": 14,
+        "scorable": 18,
+        "correct": 13,
+        "incorrect": 5,
+        "unscored": 0,
+        "end_to_end_exact_match_rate": 0.7222222222222222,
+        "verified_correct_fraction_of_all_images": 0.7222222222222222,
+        "failure_causes": {
+          "no_area": 4,
+          "wheel_slot_count_mismatch": 1
+        }
+      }
+    },
+    "training_exposure": {
+      "classifier_training_images": 86,
+      "area_training_images": 0,
+      "wheel_slot_dataset_splits": {
+        "train": 58,
+        "unused": 6,
+        "valid": 2,
+        "test": 5
+      }
+    },
+    "metrics_note": "Exact full digit string with leading zeros retained and correct type routing. No-area and no-reading failures stay in the scorable denominator. Unknown references excluded only from exact-match rate; all photos remain in inventory, previews and verified-correct/all lower bound. Failure cause is the first observable mismatch, not a proven root cause.",
+    "reference_note": "Assistant visual transcription and review, not independent field ground truth. Existing LCD exclusions preserved; three previously unlabeled LCD frames and original wheel photos visually reviewed this run. Never use model predictions as labels.",
+    "evaluation_kind": "Local-photo replay including training photos and repeated views; not an independent generalization benchmark.",
+    "reference_sha256": "85fc5c7700639f3bcd6492dee996d0e15a0fe89349e9359ac812896524d56dd5",
+    "model_sha256": {
+      "classifier": "a3e1469e667db1d1fc2d1bd3b1192d952a5a9db896dc88d145d6e5406c6623ea",
+      "area": "1460c5fdbfdd140c3ffffe997b5c57ab81d62043481e713fa49a88b15b6af90b",
+      "lcd_reader": "bfedd7ed24e43d741ef20717df5effde134aec9759a154b6ca334d5b1b4770e7",
+      "wheel_slots": "101fbd4de98290650fd0a5f8d90abf9b57b7982a8fc20e2a49de04367e2b17ac",
+      "wheel_reader": "37912f885b061a7b12298872fbdfa1b73ca0664363b293a55617b1d3680a98ac"
+    }
+  }
+}

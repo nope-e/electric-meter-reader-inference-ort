@@ -1,0 +1,30 @@
+[package]
+name = "electric-meter-reader-inference-ort"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+default = []
+directml = ["ort/directml"]
+
+[dependencies]
+actix-web = "4.17.0"
+actix-multipart = "0.7"
+anyhow = "1"
+env_logger = "0.11"
+futures-util = "0.3"
+fast_image_resize = { version = "6.1", default-features = false, features = ["std", "image"] }
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp", "bmp"] }
+log = "0.4"
+ort = { version = "=2.0.0-rc.15", default-features = false, features = ["std", "download-binaries", "copy-dylibs", "tls-rustls", "api-24"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+sha2 = "0.10"
+tokio = { version = "1", features = ["sync"] }
+tracing = "0.1.44"
+thiserror = "2.0.21"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+

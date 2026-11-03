@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#147d72">
+  <title>电表读数工作台 · Meter Vision</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="电表读数工作台首页"><span class="brand-icon">M<span>·</span></span><span>METER<span class="brand-light"> VISION</span></span></a>
+    <div class="top-right"><span class="workspace-label">电表读数工作台</span><span id="health" class="health"><i></i>连接中</span></div>
+  </header>
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow">IMAGE TO READING <span>/</span> 图像识表</div><h1>从照片，到清晰读数<span>。</span></h1><p>上传电表照片，自动定位读数区域，识别液晶数字与机械滚轮。</p></div>
+      <span class="version-tag" id="version">本地推理 · 图片不落盘</span>
+    </section>
+    <section class="metrics" aria-label="检测概览">
+      <div><span class="metric-label">待检照片</span><strong id="stat-total">0<small>张</small></strong></div>
+      <div><span class="metric-label">已完成</span><strong id="stat-done">0<small>张</small></strong></div>
+      <div><span class="metric-label">需要复核</span><strong id="stat-review" class="amber">0<small>张</small></strong></div>
+      <div><span class="metric-label">平均推理耗时</span><strong id="stat-time">—<small>ms</small></strong></div>
+    </section>
+    <div class="workspace">
+      <aside>
+        <section class="panel upload-panel">
+          <div class="section-label"><span class="step">01</span><h2>添加照片</h2></div>
+          <label class="dropzone" id="dropzone" for="files" tabindex="0">
+            <svg width="42" height="42" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="7" y="7" width="34" height="34" rx="10" stroke="currentColor" stroke-width="1.5"/><path d="M24 31V17m0 0-5 5m5-5 5 5M17 33h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <strong>拖拽图片到这里</strong><span>或 <b>点击选择文件</b></span><small>JPG / PNG / WebP / BMP<br>单张 ≤ 16 MiB · 最多 2400 万像素</small>
+          </label>
+          <input id="files" class="sr-only" type="file" accept="image/jpeg,image/png,image/webp,image/bmp" multiple>
+          <button id="run" class="primary" disabled>开始检测 <span aria-hidden="true">↗</span></button>
+          <div class="upload-note"><span>◎</span> 图片仅在当前服务内存中处理</div>
+        </section>
+        <section class="panel guide">
+          <div class="section-label"><span class="step">02</span><h2>识别流程</h2></div>
+          <ol><li><i></i><div><b>判断电表类型</b><span>区分液晶显示与机械滚轮</span></div></li><li><i></i><div><b>定位读数区域</b><span>在完整照片中查找读数窗口</span></div></li><li><i></i><div><b>识别并生成候选</b><span>数字检测 / 轮位识别与联合解码</span></div></li></ol>
+          <div class="review-note"><b>请保留人工复核</b><p>读数为模型候选值。液晶表默认两位小数，滚轮表默认一位小数；滚轮结果均需复核。</p></div>
+        </section>
+        <p class="sidebar-foot">完整照片 · 清晰对焦 · 避免反光</p>
+      </aside>
+      <section class="results-section">
+        <div class="results-heading"><div class="section-label"><h2>检测结果</h2><span class="count-pill" id="result-count">0</span></div><div class="actions"><button id="export" class="text-button" disabled>↓ 导出 JSON</button><button id="clear" class="text-button" disabled>清空</button></div></div>
+        <div class="result-toolbar"><div class="filters" role="group" aria-label="筛选检测结果"><button data-filter="all" class="active" aria-pressed="true">全部</button><button data-filter="review" aria-pressed="false">待复核</button><button data-filter="candidate" aria-pressed="false">候选读数</button><button data-filter="error" aria-pressed="false">失败</button></div><label class="toggle"><input id="boxes" type="checkbox" checked>显示检测框</label></div>
+        <div id="progress-wrap" hidden><div class="progress-label"><span id="progress-label">正在检测</span><span id="progress-count"></span></div><progress id="progress" max="100" value="0"></progress></div>
+        <p id="notice" class="notice" role="status" aria-live="polite" hidden></p>
+        <div id="empty" class="empty"><svg width="104" height="88" viewBox="0 0 104 88" fill="none" aria-hidden="true"><rect x="15" y="8" width="74" height="72" rx="14" fill="#f0f5f3" stroke="#d6e3dd"/><rect x="27" y="22" width="50" height="23" rx="4" fill="white" stroke="#c1d5cb"/><path d="M34 29h5v10h-5zm11 0h5v10h-5zm11 0h5v10h-5zm11 0h4v10h-4z" fill="#9fbbaf"/><circle cx="52" cy="62" r="7" stroke="#adc7ba"/><path d="M52 57v5l3 2" stroke="#adc7ba" stroke-linecap="round"/></svg><h3>每一张照片，都有一个读数</h3><p>从左侧添加照片，开始第一次检测。<br>支持多张上传，液晶与滚轮照片可混合处理。</p><span>检测区域 <i></i> 数字 / 轮位 <i class="gold"></i></span></div>
+        <div id="cards" class="cards"></div>
+        <p id="no-match" class="no-match" hidden>当前筛选下没有照片。</p>
+      </section>
+    </div>
+    <footer><span>METER VISION <span class="footer-dot">/</span> 让读数更直观</span><a href="/api/health" target="_blank" rel="noopener">服务状态 ↗</a></footer>
+  </main>
+  <dialog id="detail"><div class="dialog-head"><div><span class="eyebrow">DETECTION DETAILS</span><h2 id="detail-title"></h2></div><button id="close-detail" class="icon-button" aria-label="关闭详情">×</button></div><div id="detail-body"></div></dialog>
+  <dialog id="image-viewer" class="image-viewer" aria-labelledby="viewer-title">
+    <div class="viewer-toolbar">
+      <div class="viewer-heading"><h2 id="viewer-title"></h2><span id="viewer-position" aria-live="polite"></span></div>
+      <div class="viewer-controls"><button id="viewer-out" aria-label="缩小图片" title="缩小">−</button><span id="viewer-zoom">100%</span><button id="viewer-in" aria-label="放大图片" title="放大">＋</button><button id="viewer-fit">适应窗口</button><button id="viewer-close" aria-label="关闭图片查看器" title="关闭 (Esc)">×</button></div>
+    </div>
+    <div class="viewer-body">
+      <div id="viewer-stage" class="viewer-stage"><div class="viewer-surface"><canvas id="viewer-canvas" aria-label="带识别信息和检测框的大图"></canvas><p id="viewer-message" role="status" hidden>图片加载中…</p></div></div>
+      <button id="viewer-prev" class="viewer-nav viewer-prev" aria-label="上一张图片" title="上一张 (←)">‹</button>
+      <button id="viewer-next" class="viewer-nav viewer-next" aria-label="下一张图片" title="下一张 (→)">›</button>
+    </div>
+    <div class="viewer-help">← → 切换当前筛选内的图片<span>＋ − 缩放 · 放大后滚动查看 · Esc 关闭</span></div>
+  </dialog>
+</body>
+</html>

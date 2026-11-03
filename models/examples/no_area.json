@@ -1,0 +1,24 @@
+{
+  "reference_raw": "003733",
+  "note": "Illustrative replay; model output may be incorrect. Full logits omitted.",
+  "output": {
+    "image": "wheel/1792416423878.jpg",
+    "source_sha256": "e53e54d1cea2d95bd35408b498fe6b23059b89218e56254b8cf749ae140c3d3d",
+    "width": 3072,
+    "height": 4096,
+    "meter_type": "wheel",
+    "type_scores": {
+      "digital": 1.6677007806720212e-05,
+      "wheel": 0.9999833106994629
+    },
+    "area_candidates": [],
+    "area": null,
+    "area_best_raw_score": 0.23856016993522644,
+    "raw_digits": null,
+    "reading": null,
+    "status": "no_area",
+    "reasons": [],
+    "digit_detections": [],
+    "slots": []
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "bundle_version": "2026-10-20-current-v3",
+  "runtime": {
+    "python": "3.12.9",
+    "onnxruntime": "1.31.0",
+    "numpy": "2.5.4",
+    "opencv": "4.14.0",
+    "pillow": "13.0.0",
+    "provider": "CPUExecutionProvider"
+  },
+  "model_hashes_and_session_contracts": "passed (all five models)",
+  "counts": {
+    "images": 104,
+    "type_matches": 104,
+    "raw_digit_matches": 104,
+    "reading_matches": 104,
+    "area_matches": 104,
+    "lcd_digit_box_sets": 33,
+    "wheel_crop_box_sets": 66,
+    "wheel_logits_sets": 66,
+    "wheel_input_cells": 363,
+    "scorable": 98,
+    "correct": 79
+  },
+  "mismatches": [],
+  "tolerances": {
+    "type_scores_absolute": 1e-06,
+    "box_coordinates_absolute_pixels": 0.0001,
+    "wheel_logits_absolute": 1e-06,
+    "wheel_input_pixels": "exact uint8 equality"
+  },
+  "baseline_sha256": {
+    "evaluation.json": "f4f4505e8fdafa185545cc6d2a567fe90fafd6c751e82214c82fd4535839bce8",
+    "area/detections.json": "1f0cf98829704128cf97f53c7c85caabf56ab31c4b8e5706b4ea1b5afcffcd8a",
+    "digital/readings.json": "67c159715b5b34bf8d2e7b3fd922035e300c41b2b622e1cc4754bcb76bc9e0aa",
+    "wheel/readings.json": "ee4227e9a602cc760004bf27afc97415f34cba3cac8e28b7c2b478d93b6d8b1b"
+  },
+  "note": "Packaging equivalence check, not independent accuracy measurement or phone validation.",
+  "model_sha256": {
+    "classifier": "a3e1469e667db1d1fc2d1bd3b1192d952a5a9db896dc88d145d6e5406c6623ea",
+    "area": "1460c5fdbfdd140c3ffffe997b5c57ab81d62043481e713fa49a88b15b6af90b",
+    "lcd_reader": "bfedd7ed24e43d741ef20717df5effde134aec9759a154b6ca334d5b1b4770e7",
+    "wheel_slots": "101fbd4de98290650fd0a5f8d90abf9b57b7982a8fc20e2a49de04367e2b17ac",
+    "wheel_reader": "37912f885b061a7b12298872fbdfa1b73ca0664363b293a55617b1d3680a98ac"
+  },
+  "reference_file_sha256": {
+    "ops.py": "3f93c66d219a36bf50d21a536bdb119a82a2784ceb6aff32b0cd45c85e6ad357",
+    "pipeline.py": "4035f90ceea5fe9b0b3d003a9c1381587b4e2fe10348feec8799db89dbcb6299",
+    "verify_local.py": "19e43d46001e3fe96620edbdc07ee4b93ff3a55c1597738d22670ae4d1e0105b",
+    "visionstate_common.py": "5595db9352c4e4bf4fdfb2028a0b8d861781c3c415fc988e3c7a2fa2d1da92ea"
+  }
+}
